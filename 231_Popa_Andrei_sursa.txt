@@ -1,0 +1,1715 @@
+CREATE TABLE Consumabile(
+    idConsumabile integer NOT NULL,
+    NUME VARCHAR2(255) NOT NULL ,
+    PRET NUMBER(20) NOT NULL ,
+    PRIMARY KEY (idConsumabile)
+);
+
+Alter TABLE  Consumabile
+add furnizor varchar2(255);
+
+commit
+
+CREATE TABLE Modele_Masini_Consumabile (
+    idTipVehicul NUMBER PRIMARY KEY,
+    marca_masina VARCHAR2(100) NOT NULL,
+    model_masina VARCHAR2(100) NOT NULL
+);
+
+CREATE TABLE Consumabile_Multiple (
+    IdConsumabila NUMBER,
+    idTipVehicul NUMBER,
+    PRIMARY KEY (IdConsumabila, idTipVehicul),
+    FOREIGN KEY (IdConsumabila) REFERENCES Consumabile(idConsumabile),
+    FOREIGN KEY (idTipVehicul) REFERENCES Modele_Masini_Consumabile(idTipVehicul)
+);
+
+COMMIT;
+
+
+CREATE table tari(
+    idTari number(3),
+    Nume varchar2(100) NOT NULL ,
+    primary key(idTari),
+    constraint NoBulgaria check (Nume != 'Bulgaria')
+)
+
+Alter TABLE  TARI
+ADD constraint UNIQUE_NUME UNIQUE(NUME);
+
+insert into tari(idTari, Nume) values  (2, 'Spania');
+insert into tari(idTari, Nume) values  (1, 'Romania');
+insert into tari(idTari, Nume) values  (3, 'Germania');
+insert into tari(idTari, Nume) values  (2, 'Suedia');
+insert into tari(idTari, Nume) values  (5, 'Ungaria');
+insert into tari(idTari, Nume) values  (6, 'Franta');
+insert into tari(idTari, Nume) values  (7, 'Italia');
+insert into tari(idTari, Nume) values  (8, 'USA');
+insert into tari(idTari, Nume) values  (9, 'Cehia');
+insert into tari(idTari, Nume) values  (10, 'Japonia');
+
+SELECT * FROM TARI
+
+CREATE table Locatie(
+    idLocatie number(3),
+    Nume varchar2(100) Unique NOT NULL ,
+     primary key(idlocatie)
+);
+
+commit
+
+Create table Departamente
+(
+    idDepartament number(2),
+    Nume          varchar2(100) Unique Null,
+    idLocatie     number(3),
+    PRIMARY KEY (idDepartament),
+    constraint FK_LocatieDepartament FOREIGN KEY (idLocatie)
+        references Locatie (idLocatie)
+);
+
+insert into Departamente(idDepartament, Nume, idLocatie) values  (1, 'Consiliu Executiv',1);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (7, 'Dealer',1);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (2, 'Marketing',1);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (3, 'HR',1);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (4, 'Modificari-Auto',2);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (5, 'Contabilitate',2);
+insert into Departamente(idDepartament, Nume, idLocatie) values  (6, 'Inventar',2);
+
+select * from Departamente
+
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (1, 'Spoiler', 2500,'Japanos');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (2, 'Scaun de Curse', 1400,'SharkRace');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (3, 'Jante Race', 3000,'BMW');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (4, 'Jante Sport 19', 3750,'Audi');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (5, 'Evacuare', 5500,'GM');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (6, 'Suspensie', 1500,'Toyota');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (7, 'Anvelope Sport', 500,'Hankok');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (8, 'Bujie', 500, 'AD Garage');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (9, 'Placute de Frana', 1400,'Mercedes');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (10, 'Capota Aerodinamica', 1600,'Audi');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (11, 'Spoiler F18', 10600,'Ferrari');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (12, 'Jante Race ', 4600,'Michlen');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (13, 'Volan AMG', 3540,'Mercedes');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (14, 'Volan ABT', 3100,'Audi');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (15, 'Suspensie Sport', 1890,'Renault');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (16, 'Jante Sport', 1990,'Renault');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (17, 'Suspensie Sport', 4990,'Volvo');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (18, 'Spoiler', 5080,'GM');
+insert into Consumabile(idConsumabile, NUME, PRET,furnizor)
+values (19, 'Evacuare', 4990,'Japanos');
+
+commit;
+
+
+
+create table Angajat(
+idAngajat number(5),
+Nume varchar2(200) NOT NULL,
+Prenume varchar2(200) NOT NULL,
+idDepartament number(2),
+Salariu number(7),
+leader varchar(2) DEFAULT 'Nu' CHECK (leader IN ('Da', 'Nu')),
+PRIMARY KEY (idAngajat),
+constraint FK_AngajatDepartament FOREIGN KEY (idDepartament)
+        references Departamente(idDepartament)
+);
+
+
+create table Tunning(
+    idTunning number(2),
+    Nume varchar2(100),
+    idAngajat number(5) default NULL,
+    idConsumabile number(5) not null ,
+    Pret number(6) not null ,
+    PRIMARY KEY (idTunning),
+    constraint FK_ConsumabilaTunning FOREIGN KEY (idConsumabile)
+        references Consumabile(idConsumabile),
+    constraint FK_AngajatTunning FOREIGN KEY (idAngajat)
+        references ANGAJAT(IDANGAJAT)
+);
+
+
+
+
+create table Masina(
+    idMasina number(5) NOT NULL ,
+    Brand varchar2(100) NOT NULL ,
+    Model varchar2(100) not null ,
+    idTara number(3) not null ,
+    Culoare varchar2(50) not null ,
+    An number(4) not null ,
+    Pret number(10) not null ,
+    PRIMARY KEY (idMasina),
+    constraint FK_TaraMasina FOREIGN KEY (idTara)
+        references TARI(idTari)
+);
+
+
+Alter TABLE  Masina
+ADD CONSTRAINT AnMasina check (
+        An between 2000 and 2023
+    );
+
+create table MasinaElectrica(
+    idMasina number(5) ,
+    BaterieKW NUMBER(4) NOT NULL ,
+    PRIMARY KEY (idMasina),
+    constraint FK_MasinaElectrica FOREIGN KEY (idMasina)
+        references Masina(idMasina)
+);
+
+CREATE TABLE MasinaTraditionala (
+    idMasina NUMBER(5),
+    CapacitateMotor NUMBER(4) NOT NULL,
+    Combustibil VARCHAR2(10) NOT NULL,
+    PRIMARY KEY (idMasina),
+    CONSTRAINT FK_MasinaTraditionala FOREIGN KEY (idMasina)
+        REFERENCES Masina (idMasina),
+    CONSTRAINT COMBUSTIBILFOSIL CHECK (Combustibil IN ('Motorina', 'Benzina'))
+);
+
+
+
+
+---inserare automata
+    create sequence Incrementare
+    START WITH 3000
+    increment by 1
+    nocycle
+    nocache
+
+    Alter TABLE Masina
+    ADD CaiPutere NUMBER(4)
+
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Dacia', 'Logan', 1, 'Alb', 2022, 10000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'BMW', 'Seria 5', 3, 'Negru', 2020, 31000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'BMW', 'Seria 7', 3, 'Gri', 2019, 27000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'BMW', 'X6', 3, 'Negru', 2019, 40000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'AUDI', 'A6', 3, 'Gri', 2017, 19000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Volvo', 'XC60', 2, 'Albastru', 2018, 21550);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Volvo', 'V90', 3, 'Negru', 2021, 32000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Ford', 'Mustang', 8, 'Rosu', 2023, 45000);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Ferrari', 'Roma', 7, 'Rosu', 2023, 242500);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Tesla', 'Model 3', 7, 'Alb', 2021, 25500);
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret) VALUES
+(INCREMENTARE.nextval, 'Renault', 'Megane E', 6, 'Alb', 2021, 15500);
+INSERT INTO MASINA (IDMASINA, BRAND, MODEL, IDTARA, CULOARE, AN, PRET, CAIPUTERE) VALUES (3017, 'Mecedes', 'GLE', 3, 'Negru', 2022, 101000, 390);
+INSERT INTO MASINA (IDMASINA, BRAND, MODEL, IDTARA, CULOARE, AN, PRET, CAIPUTERE) VALUES (3018, 'Mercedes', 'S Class', 3, 'Negru', 2022, 125000, 340);
+INSERT INTO MASINA (IDMASINA, BRAND, MODEL, IDTARA, CULOARE, AN, PRET, CAIPUTERE) VALUES (3019, 'Maseratti', 'Levante', 7, 'Rosu', 2021, 45000, 337);
+INSERT INTO MASINA (IDMASINA, BRAND, MODEL, IDTARA, CULOARE, AN, PRET, CAIPUTERE) VALUES (3020, 'Citroen', 'C5', 6, 'Rosu', 2018, 11000, 85);
+INSERT INTO MASINA (IDMASINA, BRAND, MODEL, IDTARA, CULOARE, AN, PRET, CAIPUTERE) VALUES (3021, 'Skoda', 'Octavia', 9, 'Verde', 2017, 9800, 101);
+
+CREATE TABLE Beneficii (
+    idBeneficiu NUMBER(5) PRIMARY KEY,
+    Nume VARCHAR2(100) NOT NULL,
+    Reducere NUMBER DEFAULT 0 CHECK (Reducere >= 0 AND Reducere <= 100)
+);
+
+
+
+
+rollback;
+
+create table Cumparator(
+    idCumparator number(5) NOT NULL ,
+    Nume varchar2(100) NOT NULL ,
+    Prenume varchar2(100) not null ,
+    idBeneficiu NUMBER(5),
+    Tara varchar2(100) not null ,
+    PRIMARY KEY (idCumparator)
+);
+
+
+ALTER TABLE Cumparator
+ADD CONSTRAINT fk_cumparatori_beneficii
+FOREIGN KEY (idBeneficiu) REFERENCES Beneficii(idBeneficiu);
+
+Create table MasiniTunate(
+    idMasina number(10) NOT NULL,
+    idTunning number(10) NOT NULL,
+    primary key (idMasina,idTunning),
+    constraint FK_MasinaTunning FOREIGN KEY (idMasina)
+        references MASINA(idMasina),
+    constraint FK_TunningMasina FOREIGN KEY (idTunning)
+        references Tunning(idTunning)
+);
+
+ROLLBACK;
+
+
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (1, 'Viteazu', 'Mihai', 'Romania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (2, 'Tiriac', 'Ion', 'Romania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (3, 'Muller', 'Straus',  'Germania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (4, 'Sorosy', 'Orban',  'Ungaria');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (5, 'Gigi', 'Becali',  'Romania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (6, 'Jasmine', 'Ford',  'USA');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (7, 'Xavier', 'Catalon',  'Spania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (8, 'Parmigiano', 'Charles',  'Italia');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (9, 'Anton', 'Mitrovici',  'Serbia');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (10, 'Ioana', 'Petrea',  'Romania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (11, 'Maria', 'Dobrin',  'Romania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (12, 'Clara', 'Vasquez', 'Spania');
+insert into CUMPARATOR(idCumparator, Nume, Prenume,  Tara) VALUES (13, 'Fried', 'Koln', 'Germania');
+
+commit
+
+
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (1, 'Modificare Jante', 4, 3, 230);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (2, 'Schimb Anvelope', 4, 7, 80);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (3, 'Montare Suspensie', 6, 6, 350);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (4, 'Montare Scaun Sport', 7, 2, 600);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (5, 'Schimb Frane', 6, 9, 350);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (6, 'Schimb Bujie', 4, 8, 510);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (7, 'Montare Capota', 7, 10, 600);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (8, 'Montare Spoiler', Null, 1, 860);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (9, 'Montare Volan', 20, 14, 600);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (10, 'Montare Volan', 20, 13, 550);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (11, 'Schimb Evacuare', 19, 5, 900);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (12, 'Montare Spoiler', Null, 11, 1100);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (13, 'Montare Jante', 4, 12, 290);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (14, 'Montare Spoiler', 18, 18, 790);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (15, 'Montare Suspensie', Null, 18, 700);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (16, 'Modificare Jante', 6, 16, 260);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (17, 'Montare Suspensie', 18, 17, 550);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (18, 'Schimb Evacuare', 19, 19, 1100);
+insert into Tunning(idTunning, Nume, idAngajat, idConsumabile, Pret) VALUES (19, 'Modificare Jante', 4, 4, 310);
+
+
+
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3001,1);
+
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3001,7);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3023,18);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3023,13);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3024,18);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3022,19);
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3021,11);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3008,11);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3008,18);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3002,1);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3000,16);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3004,9);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3004,7);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3018,5);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3018,10);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3024,1);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3016,13);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3005,17);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3005,6);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3006,6);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3000,6);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3015,6);
+insert into MasiniTunate(idMasina, idTunning) VALUES (3008,6);
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3017,6);
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3018,6);
+
+commit;
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3022,19);
+
+
+DELETE FROM MasiniTunate
+WHERE idMasina = 3018 AND idTunning = 6;
+
+
+
+-- Commit
+COMMIT;
+
+SELECT T.idTunning, T.Nume AS NumeTunning, T.Pret, C.idConsumabile, C.Nume AS NumeConsumabila
+FROM Tunning T
+JOIN Consumabile C ON T.idConsumabile = C.idConsumabile;
+
+commit
+
+
+
+Create table Vanzare
+(   idCumparator number(5) Not NULL,
+    idAngajat number(5) NOT NULL,
+    idMasina number(5) NOT NULL UNIQUE,
+    PRIMARY KEY (idCumparator,idAngajat,idMasina),
+    constraint FK_VanzareMasina FOREIGN KEY (idMasina)
+        references Masina(idMasina),
+    constraint FK_VanzareAngajat FOREIGN KEY (idAngajat)
+        references Angajat(idAngajat),
+    constraint FK_CumparatorVanzare FOREIGN KEY (idCumparator)
+        references CUMPARATOR(idCumparator)
+);
+        Alter TABLE Vanzare
+    add DataVanzare Date;
+
+
+
+
+---incrementare vanzare
+    create sequence IncerementVanzari
+    start with 7000
+    increment by 1
+    nocycle
+    nocache
+
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (2, 'Lautaru', 'Vasile', 2, 1000);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (3, 'Guta', 'Nicolae', 4, 900);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (4, 'Moraru', 'Dan', 7, 1500);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (5, 'Anton', 'Tudor', 3, 920);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (6, 'Padurariu', 'Sabin', 4, 1200);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (7, 'Luigi', 'Mitica', 4, 1050);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (8, 'Petrescu', 'Iulia', 5, 1655);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (9, 'Popescu', 'Delia', 7, 1780);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (10, 'Oprea', 'Constantin', 7, 1500);
+    insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (11, 'Sandu', 'Codrin', 7, 1340);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (12,'Mihail','Simionescu',7,1450);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (13,'George','Moisila',7,1470);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (14,'Violeta','Suru',5,2170);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (15,'George','Lazar',4,1370);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (16,'Mihaela','Hangu',2,1310);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (17,'Ionut','Sima',3,1170);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (18,'Tudor','Eremitu',4,1800);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (19,'Lucian','Miron',4,1630);
+    Insert into Angajat(idAngajat, Nume, Prenume, idDepartament, Salariu) VALUES (20,'Mihaita','Paduraru',4,1590);
+
+
+
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3000,'Benzina',1780);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3001,'Benzina',2900);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3002,'Benzina',3900);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3003,'Motorina',2910);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3004,'Motorina',1980);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3008,'Benzina',4900);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3012,'Motorina',1190);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3013,'Motorina',1210);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3015,'Benzina',3450);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3016,'Benzina',3980);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3017,'Benzina',3980);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3019,'Motorina',2201);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3020,'Motorina',1390);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3021,'Benzina',1980);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3022,'Benzina',2980);
+    Insert into MasinaTraditionala(IDMASINA,COMBUSTIBIL,CAPACITATEMOTOR) values (3023,'Benzina',3470);
+
+---masini electrice
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,150);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3006,180);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,210);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,95);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,186);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,111);
+    Insert into MasinaElectrica(idMasina, BaterieKW)
+        VALUES(3005,145);
+
+---incrementare vanzare
+    create sequence IncrementareTunning
+    start with 1
+    increment by 1
+    nocycle
+    nocache
+
+
+commit
+
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3000,1);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3001,1);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3008,3);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3008,4);
+    insert into MasiniTunate( idMasina, idTunning) VALUES (3016,3);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3008,2);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3022,4);
+    insert into MasiniTunate( idMasina, idTunning) VALUES (3017,1);
+    insert into MasiniTunate(idMasina, idTunning) VALUES (3017,2);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3013,4);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3004,2);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3004,3);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3004,4);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3021,4);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3008,1);
+    insert into MasiniTunate(  idMasina, idTunning) VALUES (3019,3);
+
+commit
+
+
+    insert into Locatie(idLocatie, Nume) VALUES (1, 'Pipera');
+    insert into Locatie(idLocatie, Nume) VALUES (2, 'Militari');
+    insert into Locatie(idLocatie, Nume) VALUES (3, 'Victoriei');
+    insert into Locatie(idLocatie, Nume) VALUES (4, 'Otopeni');
+    insert into Locatie(idLocatie, Nume) VALUES (5, 'Baneasa');
+
+
+
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (6, 11, 3000,TO_DATE('06-03-2023', 'dd-mm-yyyy'));
+
+
+
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (1, 4, 3002,TO_DATE('08-02-2020', 'dd-mm-yyyy'));
+
+insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (3, 4, 3003,TO_DATE('29-03-2021', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (2, 11, 3013,TO_DATE('19-06-2022', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (7, 10, 3006,TO_DATE('19-05-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (8, 10, 3010,TO_DATE('01-01-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (1, 11, 3011,TO_DATE('08-02-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (5, 12, 3016,TO_DATE('11-10-2022', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (5, 13, 3005,TO_DATE('12-12-2022', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (3, 4, 3021,TO_DATE('05-03-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (6, 11, 3025,TO_DATE('10-07-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (9, 11, 3019,TO_DATE('12-01-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (2, 11, 3024,TO_DATE('10-04-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (8, 10, 3020,TO_DATE('10-04-2023', 'dd-mm-yyyy'));
+    insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (8, 10, 3004,TO_DATE('10-04-2023', 'dd-mm-yyyy'));
+
+rollback;
+
+COMMIT
+
+ALTER TABLE Vanzare
+ADD DataVanzare DATE
+
+ALTER TABLE vanzare ADD CONSTRAINT DataVanzare
+CHECK (DATAVANZARE < TO_DATE('01-08-2023', 'dd-mm-yyyy'));
+
+Insert Into Beneficii(idBeneficiu, Nume, Reducere) VALUES (1,'Standard',1);
+Insert Into Beneficii(idBeneficiu, Nume, Reducere) VALUES (2,'Bronze',1.5);
+Insert Into Beneficii(idBeneficiu, Nume, Reducere) VALUES (3,'Silver',2);
+Insert Into Beneficii(idBeneficiu, Nume, Reducere) VALUES (4,'Gold',3);
+Insert Into Beneficii(idBeneficiu, Nume, Reducere) VALUES (5,'Exclusive',5);
+
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (1, 'Dacia', 'Logan');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (2, 'BMW', 'Seria 5');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (3, 'BMW', 'Seria 7');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (4, 'BMW', 'X6');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (5, 'Audi', 'A6');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (6, 'Volvo', 'XC60');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (7, 'Volvo', 'V90');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (8, 'Ford', 'Mustang');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (9, 'Ferrari', 'Roma');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (10, 'Tesla', 'Model3');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (11, 'Renault', 'MeganeE');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (12, 'Seat', 'Ibiza');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (13, 'Dacia', 'Duster');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (14, 'Tesla', 'ModelS');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (15, 'Lamborghini', 'Huracan');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (16, 'Porsche', '991');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (17, 'Mercedes', 'GLE');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (18, 'Mercedes', 'S Class');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (19, 'Maserati', 'Levante');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (20, 'Citroen', 'C5');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (21, 'Skoda', 'Octavia');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (22, 'Porsche', '911 GT3');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (23, 'Toyota', 'Supra');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (24, 'Nissan', 'Leaf');
+INSERT INTO Modele_Masini_Consumabile (idTipVehicul, marca_masina, model_masina) VALUES (25, 'Nissan', 'Altima');
+
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (3,2);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (3,3);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (10,16);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (10,5);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (4,5);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (4,16);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (4,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,3);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,4);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,23);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,19);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,2);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (9,18);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (9,17);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (10,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (6,23);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (2,8);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (2,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (2,9);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (5,8);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (5,21);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (1,23);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (1,16);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (1,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,8);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,17);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (1,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (1,22);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,20);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,15);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,7);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,6);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (7,11);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (8,11);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (11,9);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,9);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,10);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,15);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,16);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,23);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (12,8);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (14,5);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (14,16);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (13,18);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (13,17);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (15,1);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (15,3);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (15,11);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (15,12);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (16,11);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (16,3);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (16,1);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (17,6);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (17,7);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (18,8);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (18,21);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (19,25);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (19,24);
+Insert Into Consumabile_Multiple(idconsumabila, idtipvehicul) VALUES (19,23);
+
+
+commit
+
+
+insert into Masina(idMasina, Brand, Model, idTara, Culoare, An, Pret,CAIPUTERE) VALUES
+(4000, 'Audi', 'A8', 7, 'Verde', 2021, 68000,500);
+
+
+Create table MasiniTunate
+(   idMasina number(10),
+    idTunning number(10),
+    primary key(idMasina,idTunning),
+    constraint FK_Masina foreign key(idMasina) references Masina(idMasina),
+    constraint FK_Tunning foreign key(idTunning) references TUNNING(idTunning)
+);
+
+insert into MasiniTunate VALUES (3002,4);
+
+ROLLBACK;
+---exercitiul 6
+----------------
+
+--
+
+CREATE OR REPLACE PROCEDURE RaportClientiSpeciali IS
+
+    TYPE Vector IS varray(1000) of NUMBER; -- TIPUL VECTOR
+  v_ClientiSpeciali Vector := Vector();
+
+  TYPE DetaliiMasinaType IS RECORD (
+    IdMasina MASINA.idMasina%TYPE,
+    nume_cumparator Cumparator.Nume%type,
+    idCumparator Cumparator.idCumparator%type,
+    BrandMasina MASINA.Brand%TYPE,
+    ModelMasina MASINA.Model%TYPE,
+    PretMasina NUMBER
+  );
+  TYPE Tablou IS TABLE OF DETALIIMASINATYPE ; --TABLOU NEINDEXAT
+    detaliiMasini Tablou := Tablou();
+  TYPE SumaClienti IS TABLE OF NUMBER INDEX BY PLS_INTEGER; --TABLOU INDEXAT
+  v_SumaTotala SumaClienti;
+
+    v_AnActual NUMBER;
+    v_IdMasina MASINA.idMasina%TYPE;
+    v_BrandMASINA MASINA.Brand%TYPE;
+    v_ModelMASINA MASINA.Model%TYPE;
+    --idc Cumparator.idCumparator%type;
+    v_pret NUMBER;
+    k_masini PLS_INTEGER := 0;
+    s_client PLS_INTEGER;
+
+BEGIN
+  -- Iterăm prin fiecare an (2020, 2021, 2022, 2023)
+  FOR v_AnActual IN 2020..2023 LOOP
+    -- EXTRAG CLIENTII
+    v_ClientiSpeciali := Vector();
+    detaliiMasini := Tablou();
+    k_masini := 0;
+    SELECT DISTINCT v.idCumparator BULK COLLECT INTO v_ClientiSpeciali
+    FROM Vanzare v
+    JOIN Masina m ON v.idMasina = m.idMasina
+    WHERE EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual
+    GROUP BY v.idCumparator
+    HAVING COUNT(DISTINCT v.idMasina) >= 1;
+
+    --selectez toti clientii speciali
+    FOR i IN v_ClientiSpeciali.FIRST..v_ClientiSpeciali.LAST LOOP
+        SELECT COALESCE(SUM(m.Pret), 0) INTO s_client
+        FROM Masina m
+        JOIN Vanzare v ON m.idMasina = v.idMasina
+        WHERE v.idCumparator = v_ClientiSpeciali(i) AND EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual;
+
+        k_masini := k_masini + 1;
+        v_SumaTotala(k_masini) := s_client;
+
+        SELECT idMasina, Model, Brand, An
+        INTO v_IdMasina, v_ModelMASINA, v_BrandMASINA, v_pret
+        FROM (
+            SELECT m.idMasina, m.Model, m.Brand, m.An
+            FROM Masina m
+            JOIN Vanzare v ON m.idMasina = v.idMasina
+            WHERE v.idCumparator = v_ClientiSpeciali(i) AND EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual
+            ORDER BY m.Pret DESC
+        )
+WHERE ROWNUM = 1;
+
+    detaliiMasini.extend;
+    detaliiMasini(k_masini).PretMasina := v_pret;
+    detaliiMasini(k_masini).BrandMasina := v_BrandMASINA;
+    detaliiMasini(k_masini).ModelMasina := v_ModelMASINA;
+    detaliiMasini(k_masini).IdMasina := v_IdMasina;
+    detaliiMasini(k_masini).idCumparator := v_ClientiSpeciali(i);
+
+    END LOOP;
+
+    -- Afișarea rezultatelor
+    FOR i IN detaliiMasini.FIRST..detaliiMasini.LAST LOOP
+      DBMS_OUTPUT.PUT_LINE('Anul ' || v_AnActual);
+      DBMS_OUTPUT.PUT_LINE('Suma totala cheltuita: ' || v_SumaTotala(i) || ' RON');
+      DBMS_OUTPUT.PUT_LINE('Clientul cu id ul -> ' || detaliiMasini(i).idCumparator );
+      DBMS_OUTPUT.PUT_LINE('Detalii Masina:');
+      DBMS_OUTPUT.PUT_LINE('  ID Masina: ' || detaliiMasini(i).IdMasina);
+      DBMS_OUTPUT.PUT_LINE('  Brand Masina: ' || detaliiMasini(i).BrandMasina);
+      DBMS_OUTPUT.PUT_LINE('  Model Masina: ' || detaliiMasini(i).ModelMasina);
+      DBMS_OUTPUT.PUT_LINE('_______________________________________________');
+    END LOOP;
+  END LOOP;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('Nu există date pentru clienții speciali în anul ' || v_AnActual);
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END RaportClientiSpeciali;
+/
+
+
+BEGIN
+  RAPORTCLIENTISPECIALI();
+END;
+/
+
+
+
+    -- Cursor pentru a obține toate tunning-urile disponibile
+    --exercitiul 7
+
+CREATE OR REPLACE PROCEDURE MasiniFaraTunning (
+  p_tunning_status VARCHAR2
+) IS
+--- cursor clasic parametrizat
+CURSOR curMasiniFaraTunning (param_tunning_status VARCHAR2) IS
+  SELECT m.idMasina, m.Brand, m.Model
+  FROM Masina m
+  WHERE
+    (
+      param_tunning_status = 'InStoc'
+      AND not EXISTS (
+        SELECT 1
+        FROM VANZARE v
+        WHERE v.idMasina = m.idMasina
+      )
+        AND NOT EXISTS (
+        SELECT 1
+        FROM MasiniTunate mt
+        WHERE mt.idMasina = m.idMasina
+      )
+    )
+    OR
+    (
+      param_tunning_status = 'Vandute'
+      AND EXISTS (
+        SELECT 1
+        FROM VANZARE v
+        WHERE v.idMasina = m.idMasina
+      )
+      AND NOT EXISTS (
+        SELECT 1
+        FROM MasiniTunate mt
+        WHERE mt.idMasina = m.idMasina
+      )
+    );
+
+  v_idMasina NUMBER;
+  v_BrandMasina VARCHAR2(100);
+  v_ModelMasina VARCHAR2(100);
+
+BEGIN
+  OPEN curMasiniFaraTunning(p_tunning_status);
+  LOOP
+    FETCH curMasiniFaraTunning INTO v_idMasina, v_BrandMasina, v_ModelMasina;
+    EXIT WHEN curMasiniFaraTunning%NOTFOUND;
+
+    DBMS_OUTPUT.PUT_LINE('Mașina fără Tunning: ID=' || v_idMasina || ', Brand=' || v_BrandMasina || ', Model=' || v_ModelMasina);
+
+    -- Ciclu cursor
+    FOR TUNNING_DISPONOBIL IN (
+      SELECT t.idTunning, t.Nume, mmc.model_masina, mmc.marca_masina
+      FROM Tunning t
+      JOIN Consumabile c ON c.idConsumabile = t.idConsumabile
+      JOIN Consumabile_Multiple cm ON c.idConsumabile = cm.IdConsumabila
+      JOIN Modele_Masini_Consumabile mmc ON cm.idTipVehicul = mmc.idTipVehicul
+    )
+
+    LOOP
+        --DBMS_OUTPUT.PUT_LINE(TUNNING_DISPONOBIL.model_masina ||' '|| TUNNING_DISPONOBIL.marca_masina || ', Nume=' || v_ModelMasina || v_BrandMasina);
+      IF TUNNING_DISPONOBIL.model_masina = v_ModelMasina AND TUNNING_DISPONOBIL.marca_masina = v_BrandMasina THEN
+        DBMS_OUTPUT.PUT_LINE('   Tunning disponibil: ID=' || TUNNING_DISPONOBIL.idTunning || ', Nume=' || TUNNING_DISPONOBIL.Nume);
+      END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('--------------------------');
+  END LOOP;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END MasiniFaraTunning;
+/
+
+DECLARE
+  v_status_stoc VARCHAR2(10) := 'InStoc';
+BEGIN
+  MasiniFaraTunning(v_status_stoc);
+END;
+
+DECLARE
+  v_status_vandute VARCHAR2(10) := 'Vandute';
+BEGIN
+  MasiniFaraTunning(v_status_vandute);
+END;
+
+
+-- exercitiul 8
+    CREATE OR REPLACE FUNCTION RaportVanzariAngajat(
+      p_NumeAngajat VARCHAR2,
+      p_PrenumeAngajat VARCHAR2
+    ) RETURN VARCHAR2 IS
+      nr_err NUMBER;
+      employee_no_data_found EXCEPTION;
+      no_cars_sale EXCEPTION;
+
+      v_IdAngajat Angajat.idAngajat%TYPE;
+      v_IdDepartament Angajat.idDepartament%TYPE;
+      v_SumaTotala NUMBER := 0;
+
+      v_Raport VARCHAR2(4000) := 'Raport Vanzari Angajat:' || CHR(10);
+    BEGIN
+      BEGIN
+        SELECT idAngajat, idDepartament INTO v_IdAngajat, v_IdDepartament
+        FROM Angajat
+        WHERE UPPER(Nume) = UPPER(p_NumeAngajat)
+          AND UPPER(Prenume) = UPPER(p_PrenumeAngajat);
+
+
+        IF v_IdDepartament != 7 THEN
+          nr_err := 2;
+          RAISE employee_no_data_found;
+        END IF;
+
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RAISE employee_no_data_found;
+      END;
+
+
+      FOR v_InfoVanzare IN (
+        SELECT m.Brand, m.Model, m.PRET,c.Nume, C.Prenume
+        FROM Vanzare v
+        JOIN Masina m ON v.idMasina = m.idMasina
+        JOIN Cumparator c ON v.idCumparator = c.idCumparator
+        WHERE v.idAngajat = v_IdAngajat
+      ) LOOP
+        v_Raport := v_Raport ||
+          '   Masina: ' || v_InfoVanzare.Brand || ' ' || v_InfoVanzare.Model ||
+          ', Suma Cheltuita: ' || v_InfoVanzare.Pret ||
+          ', Cumparator: ' || v_InfoVanzare.Nume  ||' '||v_InfoVanzare.Prenume ||CHR(10);
+
+        v_SumaTotala := v_SumaTotala + v_InfoVanzare.Pret;
+      END LOOP;
+
+      v_Raport := v_Raport || '   Suma Totala Vanzari: ' || v_SumaTotala || CHR(10);
+
+      IF v_SumaTotala = 0 THEN
+        RAISE no_cars_sale;
+      END IF;
+
+      RETURN v_Raport;
+    EXCEPTION
+      WHEN employee_no_data_found THEN
+        IF nr_err = 1 THEN
+          DBMS_OUTPUT.PUT_LINE('Nu s-a gasit niciun angajat cu numele specificat.');
+        ELSIF nr_err = 2 THEN
+          DBMS_OUTPUT.PUT_LINE('Angajatul nu este din departamentul de vanzari.');
+        else
+            DBMS_OUTPUT.PUT_LINE('Nu s-a gasit niciun angajat cu numele specificat.');
+        END IF;
+        RETURN -20001;
+
+      WHEN no_cars_sale THEN
+        DBMS_OUTPUT.PUT_LINE('Angajatul nu a vandut nimic in anul 2023');
+        RETURN -20002;
+
+      WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Alta eroare');
+        DBMS_OUTPUT.PUT_LINE('Codul erorii: ' || SQLCODE);
+        DBMS_OUTPUT.PUT_LINE('Mesajul erorii: ' || SQLERRM);
+        RETURN -20000;
+    END RaportVanzariAngajat;
+
+
+DECLARE
+  v_Result VARCHAR2(4000);
+BEGIN
+  v_Result := RaportVanzariAngajat('Oprea', 'Constantin');
+  DBMS_OUTPUT.PUT_LINE(v_Result);
+END;
+/
+
+ALTER TABLE Consumabile
+ADD (numarConsumabile NUMBER);
+
+commit
+
+ALTER TABLE Beneficii
+ADD suma_min_cheltuita NUMBER DEFAULT 0 CHECK (suma_min_cheltuita >= 0);
+
+
+ALTER TABLE Cumparator
+ADD suma_cheltuita NUMBER DEFAULT 0;
+
+
+--Trigger bonus exercitiul 11
+CREATE OR REPLACE TRIGGER trg_atribuie_beneficiu
+before INSERT ON Vanzare
+FOR EACH ROW
+DECLARE
+    v_suma_totala NUMBER;
+    v_id_beneficiu NUMBER;
+    vs NUMBER;
+BEGIN
+    --- extrage suma masinii
+    SELECT COALESCE(SUM(m.Pret), 0)
+    INTO v_suma_totala
+    FROM Masina m
+    WHERE m.idMasina = :NEW.idMasina;
+
+    --- adauga suma masinii
+    Update CUMPARATOR
+    set suma_cheltuita = suma_cheltuita + v_suma_totala
+    where idCumparator = :New.idCumparator;
+
+    DBMS_OUTPUT.PUT_LINE('Suma Totala: ' || v_suma_totala);
+
+    --cauta beneficiu
+    SELECT idBeneficiu INTO v_id_beneficiu
+    FROM (
+        SELECT b.idBeneficiu
+        FROM Beneficii b
+        WHERE b.SUMA_MIN_CHELTUITA < vs
+        ORDER BY b.SUMA_MIN_CHELTUITA DESC
+    )
+    WHERE ROWNUM = 1;
+    --atribuie beneficiu
+    DBMS_OUTPUT.PUT_LINE('Beneficiu Atribuit: ' || v_id_beneficiu);
+    UPDATE Cumparator
+    SET idBeneficiu = v_id_beneficiu
+    WHERE idCumparator = :NEW.idCumparator;
+
+END;
+/
+
+commit
+
+rollback
+
+------------------------------------------------------------------------------------------------------------------------
+
+-- exercitiul 12
+ -- R vine de la referinta de integritate
+create or replace trigger verifica_date_tabel
+before drop or create on database
+declare
+    v_const_status VARCHAR2(90);
+      v_tabela_constrangere VARCHAR2(90);
+    v_contrangere_folisita VARCHAR2(50);
+BEGIN
+ for i in (
+     select table_name, status, constraint_name
+        from user_constraints
+            where constraint_type = 'R') loop
+                v_tabela_constrangere := i.table_name;
+                v_contrangere_folisita := i.constraint_name;
+                v_const_status := i.status;
+                 if v_const_status <> 'ENABLED'
+                     then
+                    RAISE_APPLICATION_ERROR(-20000, 'Aici o sa avem constragerea foreinght key ' || v_contrangere_folisita || ' pentru  tabela : ' || v_const_status ||'  aceasta nefiiind activata.');
+                end if;
+    end loop;
+end;
+
+create table Tabela_de_test(
+     valoare_de_test_1 varchar2(30)
+     constraint Tabela_de_testpk primary key);
+
+create table Tabela_de_test2(
+     valoare_de_test_2 varchar2(50)
+     constraint Tabela_de_test2pk primary key,
+     valoare_de_test_3 varchar2(30));
+
+alter table Tabela_de_test2
+add CONSTRAINT Tabela_de_testfk
+ FOREIGN KEY (valoare_de_test_3)
+ REFERENCES Tabela_de_test(valoare_de_test_1)
+ ON DELETE SET NULL;
+
+alter table Tabela_de_test2
+disable constraint Tabela_de_testfk;
+
+drop table Tabela_de_test2;
+
+/*TESTARE STERGERE FARA ARUNCARE DE EROARE*/
+alter table Tabela_de_test2
+enable constraint Tabela_de_testfk;
+drop table Tabela_de_test2;
+drop table Tabela_de_test;
+
+
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3018,6);
+
+commit;
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3022,19);
+
+
+
+
+--exercitiul 9
+
+CREATE OR REPLACE PROCEDURE RecomandariClienti(
+    p_NumeClient VARCHAR2,
+    p_PrenumeClient VARCHAR2
+) IS
+    nr_err NUMBER;
+    client_no_data_found EXCEPTION;
+    car_with_no_informations EXCEPTION ;
+    prea_multi Exception ;
+
+      v_IdClient CUMPARATOR.idCumparator%TYPE;
+      v_IdBeneficiu CUMPARATOR.idBeneficiu%TYPE;
+      v_NumeBeneficiu Beneficii.Nume%TYPE;
+      v_IdMasinaDeRecomandat Masina.idMasina%TYPE;
+      v_IdMasinaElectrica MasinaElectrica.idMasina%TYPE;
+      v_SumaMaxima NUMBER := 0;
+      v_BrandMasina VARCHAR2(100);
+      v_ModelMasina VARCHAR2(100);
+      v_AnFabricatie NUMBER(4);
+      v_PretMasina Number(10);
+      v_NumeTara TARI.Nume%TYPE;
+      v_Reducere Number(2);
+      v_Result VARCHAR2(4000);
+
+BEGIN
+
+    BEGIN
+        SELECT c.idCumparator, c.idBeneficiu, b.Nume,b.Reducere INTO v_IdClient, v_IdBeneficiu, v_NumeBeneficiu, v_Reducere
+        FROM CUMPARATOR c
+        Left JOIN BENEFICII B ON c.idBeneficiu = B.idBeneficiu
+        WHERE UPPER(c.Nume) = UPPER(p_NumeClient) AND UPPER(c.Prenume) = UPPER(p_PrenumeClient);
+
+        IF SQL%ROWCOUNT > 1 THEN
+            RAISE too_many_rows;
+        END IF;
+
+    -- Cei care nu au beneficiu nu primesc recomandari
+
+        IF v_NumeBeneficiu = 'Standard' THEN
+          nr_err := 1;
+          RAISE client_no_data_found;
+        elsif v_NumeBeneficiu is null Then
+            nr_err := 3; -- clientul din tabela cumparator nu a cumparat inca nici o masina
+            RAISE client_no_data_found;
+        ELSIF v_NumeBeneficiu = 'Bronze' THEN
+          v_SumaMaxima := 40500;
+        ELSIF v_NumeBeneficiu = 'Silver' THEN
+          v_SumaMaxima := 70000;
+        ELSIF v_NumeBeneficiu = 'Gold' THEN
+          v_SumaMaxima := 150000;
+        ELSIF v_NumeBeneficiu = 'Executive' THEN
+          v_SumaMaxima := 70000;
+        ELSE
+          nr_err := 2;
+          RAISE client_no_data_found;
+        END IF;
+    --exceptii
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          nr_err := 0;
+          RAISE client_no_data_found;
+
+        WHEN TOO_MANY_ROWS THEN
+            --prea multi clienti cu acelasi nume
+            RAISE prea_multi;
+    END;
+  SELECT idMasina, Brand, Model, An ,  idElectric, Pret_Masina, Nume_Tara
+  INTO v_IdMasinaDeRecomandat, v_BrandMasina, v_ModelMasina, v_AnFabricatie, v_IdMasinaElectrica, v_PretMasina, v_NumeTara
+FROM (
+  SELECT M.idMasina, M.Brand, M.Model, M.An, M2.idMasina as idElectric, M.Pret as Pret_Masina, t.Nume as Nume_Tara
+  FROM Masina M
+  LEFT JOIN Tari T ON M.idTara = T.idTari
+  LEFT JOIN Vanzare V ON M.idMasina = V.idMasina
+  LEFT JOIN MASINATRADITIONALA M3 ON M.idMasina = M3.IDMASINA
+  LEFT JOIN MASINAELECTRICA M2 ON M.idMasina = M2.IDMASINA
+  WHERE V.idMasina IS NULL AND M.Pret < v_SumaMaxima
+  ORDER BY M.Pret DESC
+)
+WHERE ROWNUM <= 1;
+  IF v_IdMasinaElectrica IS NOT NULL THEN
+    -- daca e masina electrica ...
+    DECLARE
+      v_BaterieKW NUMBER(4);
+    BEGIN
+      SELECT BaterieKW INTO v_BaterieKW
+      FROM MasinaElectrica
+      WHERE idMasina = v_IdMasinaDeRecomandat;
+
+      v_Result := 'Buna ziua! Avem la dispoziție o mașină electrică:' || CHR(10) ||
+                  ' - Brand: ' || v_BrandMasina || CHR(10) ||
+                  ' - Model: ' || v_ModelMasina || CHR(10) ||
+                  ' - Tara: '  || v_NumeTara || CHR(10) ||
+                  ' - Anul fabricației: ' || v_AnFabricatie || CHR(10) ||
+                  ' - Capacitate baterie: ' || v_BaterieKW || ' KW' || CHR(10) ||
+                  ' - Cu pretul PROMOTIONAL DE DOAR ' || v_PretMasina * ((100 - v_Reducere)/100) || ' EURO';
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RAISE car_with_no_informations;
+    END;
+  ELSE
+    -- daca e masina traditionala...
+    DECLARE
+      v_Combustibil VARCHAR2(10);
+      v_CapacitateMotor NUMBER(4);
+    BEGIN
+      SELECT Combustibil, CapacitateMotor
+      INTO v_Combustibil, v_CapacitateMotor
+      FROM MasinaTraditionala
+      WHERE idMasina = v_IdMasinaDeRecomandat;
+
+      v_Result := 'Buna ziua! Avem la dispoziție o mașină tradițională:' || CHR(10) ||
+                  ' - Brand: ' || v_BrandMasina || CHR(10) ||
+                  ' - Model: ' || v_ModelMasina || CHR(10) ||
+                  ' - Tara: '  || v_NumeTara || CHR(10) ||
+                  ' - Anul fabricației: ' || v_AnFabricatie || CHR(10) ||
+                  ' - Tip combustibil: ' || v_Combustibil || CHR(10) ||
+                  ' - Capacitate cilindrică: ' || v_CapacitateMotor || CHR(10)  ||
+                   ' - Cu pretul PROMOTIONAL DE DOAR ' || v_PretMasina * ((100 - v_Reducere)/100) || ' EURO';
+       EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RAISE car_with_no_informations;
+    END;
+  END IF;
+
+  DBMS_OUTPUT.PUT_LINE(v_Result);
+EXCEPTION
+  WHEN client_no_data_found THEN
+    if nr_err = 0 then
+         DBMS_OUTPUT.PUT_LINE('Nu exista un client care sa aiba acest Nume si Prenume');
+    ELSIF nr_err = 1 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientii Standard nu beneficiaza de aceasta promotie');
+    ELSIF nr_err = 2 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientul are un beneficiu nou care trebuie implementat in program');
+    ELSIF nr_err = 3 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientul nu a cumparat nici o masina momentan');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Eroare necunoscută.');
+    END IF;
+
+
+    WHEN car_with_no_informations THEN
+        DBMS_OUTPUT.PUT_LINE('Nu s-a gasit masina pentru a fi recomandata');
+
+    WHEN prea_multi THEN
+        DBMS_OUTPUT.PUT_LINE('Exista Prea Multe Persoane cu acelasi nume si prenume');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Altă eroare.' || CHR(10) ||
+                    'Codul erorii: ' || SQLCODE || CHR(10) ||
+                    'Mesajul erorii: ' || SQLERRM);
+END RecomandariClienti;
+/
+
+commit
+
+BEGIN
+    --- acest client a cumparat masini dar e un client standard
+  RecomandariClienti('Xavier', 'Catalon');
+END;
+/
+
+----------------------------------------------------------------------------------------------------
+--- trigger exercitiul 10
+CREATE OR REPLACE TRIGGER trg_duminica
+BEFORE INSERT ON Vanzare
+DECLARE
+    v_day_of_week NUMBER;
+BEGIN
+    v_day_of_week := TO_NUMBER(TO_CHAR(SYSDATE, 'D'));
+
+    IF v_day_of_week = 7 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Masinile nu se vand duminica');
+    END IF;
+END;
+/
+
+--trigger exercitiul 11
+------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER verificare_tunning
+BEFORE INSERT ON MasiniTunate
+FOR EACH ROW
+DECLARE
+    v_ModelMasina Masina.Model%TYPE;
+    v_BrandMasina Masina.Brand%TYPE;
+    v_idMasina Masina.idMasina%TYPE;
+    v_idConsumabila Consumabile.idConsumabile%TYPE;
+    v_nrConsumabile Consumabile.numarConsumabile%TYPE;
+    --exceptii(de verif)
+    NoCarFoundException EXCEPTION;
+    NoTuningFoundException EXCEPTION;
+    NoMoreConsumabile EXCEPTION;
+BEGIN
+    v_idMasina := :New.idMasina;
+    -- valorile pentru Model și Brand din tabela Masina
+    SELECT m.Model, m.Brand INTO v_ModelMasina, v_BrandMasina
+    FROM Masina m
+    WHERE  m.IDMASINA = v_idMasina;
+
+    -- Verificare daca s-a gasit o masina
+    IF SQL%NOTFOUND THEN
+        RAISE NoCarFoundException;
+    END IF;
+
+
+    -- verificare nume să coincidă, să fie pe stock
+    SELECT cm.IdConsumabila,c2.numarConsumabile into v_idConsumabila, v_nrConsumabile
+    FROM Tunning T
+    left JOIN CONSUMABILE C2 ON T.idConsumabile = c2.idConsumabile
+    left JOIN Consumabile_Multiple CM ON C2.idConsumabile = CM.IdConsumabila
+    JOIN Modele_Masini_Consumabile mmc ON CM.idTipVehicul = mmc.idTipVehicul
+    WHERE  mmc.marca_masina = v_BrandMasina and mmc.model_masina = v_ModelMasina
+      and t.idAngajat is not null and t.idTunning = :New.idTunning;
+
+    IF SQL%NOTFOUND THEN
+        RAISE NoTuningFoundException;
+    END IF;
+
+    if v_nrConsumabile < 1
+        then
+        RAISE_APPLICATION_ERROR(-20001, 'Nu Mai sunt consumabile de acest fel');
+
+    ELSE
+        UPDATE Consumabile
+        SET numarConsumabile = numarConsumabile - 1
+        WHERE idConsumabile = v_idConsumabila;
+    end if;
+
+
+    IF SQL%NOTFOUND THEN
+        RAISE NoTuningFoundException;
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20001, 'MODIFICAREA ESTE INCOMPATIBILA');
+    WHEN NoCarFoundException THEN
+        RAISE_APPLICATION_ERROR(-20001, 'NU EXISTA MASINA CU ID UL SPECIFICAT');
+    WHEN NoTuningFoundException THEN
+        RAISE_APPLICATION_ERROR(-20001, 'NU EXISTA MODIFICAREA CU ID UL SPECIFICAT');
+
+END;
+/
+
+
+
+commit;
+
+insert into MasiniTunate(idMasina, idTunning) VALUES (3018,6);
+
+DELETE FROM MasiniTunate WHERE idMasina = 3018 AND idTunning = 6;
+
+
+rollback;
+
+
+
+
+
+insert into Vanzare(idCumparator, idAngajat, idMasina,DataVanzare) VALUES (6, 11, 3001,TO_DATE('09-01-2022', 'dd-mm-yyyy'));
+
+rollback;
+
+
+DELETE FROM Vanzare
+WHERE idCumparator = 6
+  AND idMasina = 3001
+
+commit;
+--- exercitiu bonus : creerea unui pachet
+create or replace package companie is
+ PROCEDURE MasiniFaraTuning(
+    p_tunning_status VARCHAR2
+ );
+ PROCEDURE RecomandariClienti(
+    p_NumeClient VARCHAR2,
+    p_PrenumeClient VARCHAR2
+ );
+ FUNCTION RaportVanzariAngajat
+ ( p_NumeAngajat VARCHAR2,
+      p_PrenumeAngajat VARCHAR2)
+ RETURN Varchar2;
+ PROCEDURE RaportClientiSpeciali;
+end companie;
+
+create or replace package body companie is
+     PROCEDURE MasiniFaraTuning(
+      p_tunning_status VARCHAR2
+     )
+Is
+
+--- cursor clasic parametrizat
+CURSOR curMasiniFaraTunning (param_tunning_status VARCHAR2) IS
+  SELECT m.idMasina, m.Brand, m.Model
+  FROM Masina m
+  WHERE
+    (
+      param_tunning_status = 'InStoc'
+      AND not EXISTS (
+        SELECT 1
+        FROM VANZARE v
+        WHERE v.idMasina = m.idMasina
+      )
+        AND NOT EXISTS (
+        SELECT 1
+        FROM MasiniTunate mt
+        WHERE mt.idMasina = m.idMasina
+      )
+    )
+    OR
+    (
+      param_tunning_status = 'Vandute'
+      AND EXISTS (
+        SELECT 1
+        FROM VANZARE v
+        WHERE v.idMasina = m.idMasina
+      )
+      AND NOT EXISTS (
+        SELECT 1
+        FROM MasiniTunate mt
+        WHERE mt.idMasina = m.idMasina
+      )
+    );
+
+  v_idMasina NUMBER;
+  v_BrandMasina VARCHAR2(100);
+  v_ModelMasina VARCHAR2(100);
+
+BEGIN
+  OPEN curMasiniFaraTunning(p_tunning_status);
+  LOOP
+    FETCH curMasiniFaraTunning INTO v_idMasina, v_BrandMasina, v_ModelMasina;
+    EXIT WHEN curMasiniFaraTunning%NOTFOUND;
+
+    DBMS_OUTPUT.PUT_LINE('Mașina fără Tunning: ID=' || v_idMasina || ', Brand=' || v_BrandMasina || ', Model=' || v_ModelMasina);
+
+    -- Ciclu cursor
+    FOR TUNNING_DISPONOBIL IN (
+      SELECT t.idTunning, t.Nume, mmc.model_masina, mmc.marca_masina
+      FROM Tunning t
+      JOIN Consumabile c ON c.idConsumabile = t.idConsumabile
+      JOIN Consumabile_Multiple cm ON c.idConsumabile = cm.IdConsumabila
+      JOIN Modele_Masini_Consumabile mmc ON cm.idTipVehicul = mmc.idTipVehicul
+    )
+
+    LOOP
+        --DBMS_OUTPUT.PUT_LINE(TUNNING_DISPONOBIL.model_masina ||' '|| TUNNING_DISPONOBIL.marca_masina || ', Nume=' || v_ModelMasina || v_BrandMasina);
+      IF TUNNING_DISPONOBIL.model_masina = v_ModelMasina AND TUNNING_DISPONOBIL.marca_masina = v_BrandMasina THEN
+        DBMS_OUTPUT.PUT_LINE('   Tunning disponibil: ID=' || TUNNING_DISPONOBIL.idTunning || ', Nume=' || TUNNING_DISPONOBIL.Nume);
+      END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('--------------------------');
+  END LOOP;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END MasiniFaraTuning;
+
+ PROCEDURE RecomandariClienti
+(
+    p_NumeClient VARCHAR2,
+    p_PrenumeClient VARCHAR2
+) IS
+    nr_err NUMBER;
+    client_no_data_found EXCEPTION;
+    car_with_no_informations EXCEPTION ;
+    prea_multi Exception ;
+
+      v_IdClient CUMPARATOR.idCumparator%TYPE;
+      v_IdBeneficiu CUMPARATOR.idBeneficiu%TYPE;
+      v_NumeBeneficiu Beneficii.Nume%TYPE;
+      v_IdMasinaDeRecomandat Masina.idMasina%TYPE;
+      v_IdMasinaElectrica MasinaElectrica.idMasina%TYPE;
+      v_SumaMaxima NUMBER := 0;
+      v_BrandMasina VARCHAR2(100);
+      v_ModelMasina VARCHAR2(100);
+      v_AnFabricatie NUMBER(4);
+      v_PretMasina Number(10);
+      v_NumeTara TARI.Nume%TYPE;
+      v_Reducere Number(2);
+      v_Result VARCHAR2(4000);
+
+BEGIN
+
+    BEGIN
+        SELECT c.idCumparator, c.idBeneficiu, b.Nume,b.Reducere INTO v_IdClient, v_IdBeneficiu, v_NumeBeneficiu, v_Reducere
+        FROM CUMPARATOR c
+        Left JOIN BENEFICII B ON c.idBeneficiu = B.idBeneficiu
+        WHERE UPPER(c.Nume) = UPPER(p_NumeClient) AND UPPER(c.Prenume) = UPPER(p_PrenumeClient);
+
+        IF SQL%ROWCOUNT > 1 THEN
+            RAISE too_many_rows;
+        END IF;
+
+    -- Cei care nu au beneficiu nu primesc recomandari
+
+        IF v_NumeBeneficiu = 'Standard' THEN
+          nr_err := 1;
+          RAISE client_no_data_found;
+        elsif v_NumeBeneficiu is null Then
+            nr_err := 3; -- clientul din tabela cumparator nu a cumparat inca nici o masina
+            RAISE client_no_data_found;
+        ELSIF v_NumeBeneficiu = 'Bronze' THEN
+          v_SumaMaxima := 40500;
+        ELSIF v_NumeBeneficiu = 'Silver' THEN
+          v_SumaMaxima := 70000;
+        ELSIF v_NumeBeneficiu = 'Gold' THEN
+          v_SumaMaxima := 150000;
+        ELSIF v_NumeBeneficiu = 'Executive' THEN
+          v_SumaMaxima := 70000;
+        ELSE
+          nr_err := 2;
+          RAISE client_no_data_found;
+        END IF;
+    --exceptii
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          nr_err := 0;
+          RAISE client_no_data_found;
+
+        WHEN TOO_MANY_ROWS THEN
+            --prea multi clienti cu acelasi nume
+            RAISE prea_multi;
+    END;
+  SELECT idMasina, Brand, Model, An ,  idElectric, Pret_Masina, Nume_Tara
+  INTO v_IdMasinaDeRecomandat, v_BrandMasina, v_ModelMasina, v_AnFabricatie, v_IdMasinaElectrica, v_PretMasina, v_NumeTara
+FROM (
+  SELECT M.idMasina, M.Brand, M.Model, M.An, M2.idMasina as idElectric, M.Pret as Pret_Masina, t.Nume as Nume_Tara
+  FROM Masina M
+  LEFT JOIN Tari T ON M.idTara = T.idTari
+  LEFT JOIN Vanzare V ON M.idMasina = V.idMasina
+  LEFT JOIN MASINATRADITIONALA M3 ON M.idMasina = M3.IDMASINA
+  LEFT JOIN MASINAELECTRICA M2 ON M.idMasina = M2.IDMASINA
+  WHERE V.idMasina IS NULL AND M.Pret < v_SumaMaxima
+  ORDER BY M.Pret DESC
+)
+WHERE ROWNUM <= 1;
+  IF v_IdMasinaElectrica IS NOT NULL THEN
+    -- daca e masina electrica ...
+    DECLARE
+      v_BaterieKW NUMBER(4);
+    BEGIN
+      SELECT BaterieKW INTO v_BaterieKW
+      FROM MasinaElectrica
+      WHERE idMasina = v_IdMasinaDeRecomandat;
+
+      v_Result := 'Buna ziua! Avem la dispoziție o mașină electrică:' || CHR(10) ||
+                  ' - Brand: ' || v_BrandMasina || CHR(10) ||
+                  ' - Model: ' || v_ModelMasina || CHR(10) ||
+                  ' - Tara: '  || v_NumeTara || CHR(10) ||
+                  ' - Anul fabricației: ' || v_AnFabricatie || CHR(10) ||
+                  ' - Capacitate baterie: ' || v_BaterieKW || ' KW' || CHR(10) ||
+                  ' - Cu pretul PROMOTIONAL DE DOAR ' || v_PretMasina * ((100 - v_Reducere)/100) || ' EURO';
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RAISE car_with_no_informations;
+    END;
+  ELSE
+    -- daca e masina traditionala...
+    DECLARE
+      v_Combustibil VARCHAR2(10);
+      v_CapacitateMotor NUMBER(4);
+    BEGIN
+      SELECT Combustibil, CapacitateMotor
+      INTO v_Combustibil, v_CapacitateMotor
+      FROM MasinaTraditionala
+      WHERE idMasina = v_IdMasinaDeRecomandat;
+
+      v_Result := 'Buna ziua! Avem la dispoziție o mașină tradițională:' || CHR(10) ||
+                  ' - Brand: ' || v_BrandMasina || CHR(10) ||
+                  ' - Model: ' || v_ModelMasina || CHR(10) ||
+                  ' - Tara: '  || v_NumeTara || CHR(10) ||
+                  ' - Anul fabricației: ' || v_AnFabricatie || CHR(10) ||
+                  ' - Tip combustibil: ' || v_Combustibil || CHR(10) ||
+                  ' - Capacitate cilindrică: ' || v_CapacitateMotor || CHR(10)  ||
+                   ' - Cu pretul PROMOTIONAL DE DOAR ' || v_PretMasina * ((100 - v_Reducere)/100) || ' EURO';
+       EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RAISE car_with_no_informations;
+    END;
+  END IF;
+
+  DBMS_OUTPUT.PUT_LINE(v_Result);
+EXCEPTION
+  WHEN client_no_data_found THEN
+    if nr_err = 0 then
+         DBMS_OUTPUT.PUT_LINE('Nu exista un client care sa aiba acest Nume si Prenume');
+    ELSIF nr_err = 1 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientii Standard nu beneficiaza de aceasta promotie');
+    ELSIF nr_err = 2 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientul are un beneficiu nou care trebuie implementat in program');
+    ELSIF nr_err = 3 THEN
+      DBMS_OUTPUT.PUT_LINE('Clientul nu a cumparat nici o masina momentan');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Eroare necunoscută.');
+    END IF;
+
+
+    WHEN car_with_no_informations THEN
+        DBMS_OUTPUT.PUT_LINE('Nu s-a gasit masina pentru a fi recomandata');
+
+    WHEN prea_multi THEN
+        DBMS_OUTPUT.PUT_LINE('Exista Prea Multe Persoane cu acelasi nume si prenume');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Altă eroare.' || CHR(10) ||
+                    'Codul erorii: ' || SQLCODE || CHR(10) ||
+                    'Mesajul erorii: ' || SQLERRM);
+END RecomandariClienti;
+
+FUNCTION RaportVanzariAngajat(
+      p_NumeAngajat VARCHAR2,
+      p_PrenumeAngajat VARCHAR2
+    )
+    RETURN VARCHAR2
+    IS
+      nr_err NUMBER;
+      employee_no_data_found EXCEPTION;
+      no_cars_sale EXCEPTION;
+
+      v_IdAngajat Angajat.idAngajat%TYPE;
+      v_IdDepartament Angajat.idDepartament%TYPE;
+      v_SumaTotala NUMBER := 0;
+
+      v_Raport VARCHAR2(4000) := 'Raport Vanzari Angajat:' || CHR(10);
+    BEGIN
+      BEGIN
+        SELECT idAngajat, idDepartament INTO v_IdAngajat, v_IdDepartament
+        FROM Angajat
+        WHERE UPPER(Nume) = UPPER(p_NumeAngajat)
+          AND UPPER(Prenume) = UPPER(p_PrenumeAngajat);
+
+
+        IF v_IdDepartament != 7 THEN
+          nr_err := 2;
+          RAISE employee_no_data_found;
+        END IF;
+
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RAISE employee_no_data_found;
+      END;
+
+
+      FOR v_InfoVanzare IN (
+        SELECT m.Brand, m.Model, m.PRET,c.Nume, C.Prenume
+        FROM Vanzare v
+        JOIN Masina m ON v.idMasina = m.idMasina
+        JOIN Cumparator c ON v.idCumparator = c.idCumparator
+        WHERE v.idAngajat = v_IdAngajat
+      ) LOOP
+        v_Raport := v_Raport ||
+          '   Masina: ' || v_InfoVanzare.Brand || ' ' || v_InfoVanzare.Model ||
+          ', Suma Cheltuita: ' || v_InfoVanzare.Pret ||
+          ', Cumparator: ' || v_InfoVanzare.Nume  ||' '||v_InfoVanzare.Prenume ||CHR(10);
+
+        v_SumaTotala := v_SumaTotala + v_InfoVanzare.Pret;
+      END LOOP;
+
+      v_Raport := v_Raport || '   Suma Totala Vanzari: ' || v_SumaTotala || CHR(10);
+
+      IF v_SumaTotala = 0 THEN
+        RAISE no_cars_sale;
+      END IF;
+
+      RETURN v_Raport;
+    EXCEPTION
+      WHEN employee_no_data_found THEN
+        IF nr_err = 1 THEN
+          DBMS_OUTPUT.PUT_LINE('Nu s-a gasit niciun angajat cu numele specificat.');
+        ELSIF nr_err = 2 THEN
+          DBMS_OUTPUT.PUT_LINE('Angajatul nu este din departamentul de vanzari.');
+        else
+            DBMS_OUTPUT.PUT_LINE('Nu s-a gasit niciun angajat cu numele specificat.');
+        END IF;
+        RETURN -20001;
+
+      WHEN no_cars_sale THEN
+        DBMS_OUTPUT.PUT_LINE('Angajatul nu a vandut nimic in anul 2023');
+        RETURN -20002;
+
+      WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Alta eroare');
+        DBMS_OUTPUT.PUT_LINE('Codul erorii: ' || SQLCODE);
+        DBMS_OUTPUT.PUT_LINE('Mesajul erorii: ' || SQLERRM);
+        RETURN -20000;
+    END RaportVanzariAngajat;
+
+    PROCEDURE RaportClientiSpeciali IS
+  TYPE Vector IS varray(1000) of NUMBER; -- TIPUL VECTOR
+  v_ClientiSpeciali Vector := Vector();
+
+  TYPE DetaliiMasinaType IS RECORD (
+    IdMasina MASINA.idMasina%TYPE,
+    nume_cumparator Cumparator.Nume%type,
+    idCumparator Cumparator.idCumparator%type,
+    BrandMasina MASINA.Brand%TYPE,
+    ModelMasina MASINA.Model%TYPE,
+    PretMasina NUMBER
+  );
+  TYPE Tablou IS TABLE OF DETALIIMASINATYPE ; --TABLOU NEINDEXAT
+    detaliiMasini Tablou := Tablou();
+  TYPE SumaClienti IS TABLE OF NUMBER INDEX BY PLS_INTEGER; --TABLOU INDEXAT
+  v_SumaTotala SumaClienti;
+
+    v_AnActual NUMBER;
+    v_IdMasina MASINA.idMasina%TYPE;
+    v_BrandMASINA MASINA.Brand%TYPE;
+    v_ModelMASINA MASINA.Model%TYPE;
+    --idc Cumparator.idCumparator%type;
+    v_pret NUMBER;
+    k_masini PLS_INTEGER := 0;
+    s_client PLS_INTEGER;
+
+BEGIN
+  -- Iterăm prin fiecare an (2020, 2021, 2022, 2023)
+  FOR v_AnActual IN 2020..2023 LOOP
+    -- EXTRAG CLIENTII
+    v_ClientiSpeciali := Vector();
+    detaliiMasini := Tablou();
+    k_masini := 0;
+    SELECT DISTINCT v.idCumparator BULK COLLECT INTO v_ClientiSpeciali
+    FROM Vanzare v
+    JOIN Masina m ON v.idMasina = m.idMasina
+    WHERE EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual
+    GROUP BY v.idCumparator
+    HAVING COUNT(DISTINCT v.idMasina) >= 1;
+
+    --selectez toti clientii speciali
+    FOR i IN v_ClientiSpeciali.FIRST..v_ClientiSpeciali.LAST LOOP
+        SELECT COALESCE(SUM(m.Pret), 0) INTO s_client
+        FROM Masina m
+        JOIN Vanzare v ON m.idMasina = v.idMasina
+        WHERE v.idCumparator = v_ClientiSpeciali(i) AND EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual;
+
+        k_masini := k_masini + 1;
+        v_SumaTotala(k_masini) := s_client;
+
+        SELECT idMasina, Model, Brand, An
+        INTO v_IdMasina, v_ModelMASINA, v_BrandMASINA, v_pret
+        FROM (
+            SELECT m.idMasina, m.Model, m.Brand, m.An
+            FROM Masina m
+            JOIN Vanzare v ON m.idMasina = v.idMasina
+            WHERE v.idCumparator = v_ClientiSpeciali(i) AND EXTRACT(YEAR FROM v.DataVanzare) = v_AnActual
+            ORDER BY m.Pret DESC
+        )
+WHERE ROWNUM = 1;
+
+    detaliiMasini.extend;
+    detaliiMasini(k_masini).PretMasina := v_pret;
+    detaliiMasini(k_masini).BrandMasina := v_BrandMASINA;
+    detaliiMasini(k_masini).ModelMasina := v_ModelMASINA;
+    detaliiMasini(k_masini).IdMasina := v_IdMasina;
+    detaliiMasini(k_masini).idCumparator := v_ClientiSpeciali(i);
+
+    END LOOP;
+
+    -- Afișarea rezultatelor
+    FOR i IN detaliiMasini.FIRST..detaliiMasini.LAST LOOP
+      DBMS_OUTPUT.PUT_LINE('Anul ' || v_AnActual);
+      DBMS_OUTPUT.PUT_LINE('Suma totala cheltuita: ' || v_SumaTotala(i) || ' RON');
+      DBMS_OUTPUT.PUT_LINE('Clientul cu id ul -> ' || detaliiMasini(i).idCumparator );
+      DBMS_OUTPUT.PUT_LINE('Detalii Masina:');
+      DBMS_OUTPUT.PUT_LINE('  ID Masina: ' || detaliiMasini(i).IdMasina);
+      DBMS_OUTPUT.PUT_LINE('  Brand Masina: ' || detaliiMasini(i).BrandMasina);
+      DBMS_OUTPUT.PUT_LINE('  Model Masina: ' || detaliiMasini(i).ModelMasina);
+      DBMS_OUTPUT.PUT_LINE('_______________________________________________');
+    END LOOP;
+  END LOOP;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('Nu există date pentru clienții speciali în anul ' || v_AnActual);
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END RaportClientiSpeciali;
+
+End;
+
+DECLARE
+  v_Rezultat VARCHAR2(4000);
+begin
+    DBMS_OUTPUT.PUT_LINE('------subpunct_nou------');
+    companie.RAPORTCLIENTISPECIALI();
+    DBMS_OUTPUT.PUT_LINE('------subpunct_nou------');
+    companie.RecomandariClienti('Gigi','Becali');
+    DBMS_OUTPUT.PUT_LINE('------subpunct_nou------');
+    companie.MasiniFaraTuning('InStoc');
+    DBMS_OUTPUT.PUT_LINE('------subpunct_nou------');
+    v_Rezultat := companie.RAPORTVANZARIANGAJAT('Sandu','Codrin');
+    DBMS_OUTPUT.PUT_LINE(v_Rezultat);
+end;
+
+commit;
